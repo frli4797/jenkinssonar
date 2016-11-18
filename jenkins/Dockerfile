@@ -2,8 +2,7 @@ FROM jenkins:2.19.3
 
 USER root
 RUN apt-get update \
-      && apt-get install -y sudo curl\
-      && apt-get install -y vi\
+      && apt-get install -y sudo curl vim\
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 

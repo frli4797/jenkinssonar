@@ -15,6 +15,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
 #    - /usr/local/bin/docker:/usr/bin/docker
     - ./vol/jenkins:/var/lib/jenkins/
+    - ./vol/jenkins_home:/var/jenkins_home
   depends_on:
     - sonar
   environment:

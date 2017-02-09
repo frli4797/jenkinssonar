@@ -24,7 +24,7 @@ ENV SONARQUBE_JDBC_USERNAME sonar
 ENV SONARQUBE_JDBC_PASSWORD sonar
 ENV SONARQUBE_JDBC_URL jdbc:h2:tcp://localhost:9092/sonar
 
-ENV SONAR_VERSION 6.1
+ENV SONAR_VERSION 6.2
 
 ENV SONAR_DOWNLOAD_URL https://sonarsource.bintray.com/Distribution
 
@@ -32,6 +32,11 @@ ENV SONAR_DOWNLOAD_URL https://sonarsource.bintray.com/Distribution
 #      Key fingerprint = F118 2E81 C792 9289 21DB  CAB4 CFCA 4A29 D264 68DE
 # uid       [ unknown] sonarsource_deployer (Sonarsource Deployer) <infra@sonarsource.com>
 # sub   2048R/06855C1D 2015-05-25
+RUN apt-get update \
+#      && apt-get -y upgrade \
+      && apt-get install -y sudo curl vim\
+      && rm -rf /var/lib/apt/lists/*
+
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE
 
 RUN set -x \
@@ -48,9 +53,9 @@ RUN set -x \
 
 # Installing Plugins
 RUN cd /opt/sonarqube/extensions/plugins/ \
-  && curl -o sonar-java-plugin-4.2.jar -fSL $SONAR_DOWNLOAD_URL/sonar-java-plugin/sonar-java-plugin-4.2.jar \
+  && curl -o sonar-java-plugin-4.5.0.8398.jar -fSL $SONAR_DOWNLOAD_URL/sonar-java-plugin/sonar-java-plugin-4.5.0.8398.jar \
   && curl -o sonar-web-plugin-2.5.0.476.jar -fSL $SONAR_DOWNLOAD_URL/sonar-web-plugin/sonar-web-plugin-2.5.0.476.jar \
-  && curl -o sonar-scm-git-plugin-1.1.jar -fSL http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-scm-git-plugin/1.1/sonar-scm-git-plugin-1.1.jar
+  && curl -o sonar-scm-git-plugin-1.2.jar -fSL $SONAR_DOWNLOAD_URL/sonar-scm-git-plugin/sonar-scm-git-plugin-1.2.jar
 
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 

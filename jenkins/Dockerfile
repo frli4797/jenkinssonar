@@ -1,7 +1,8 @@
-FROM jenkins:2.19.3
+FROM jenkins:2.32.2
 
 USER root
 RUN apt-get update \
+#      && apt-get -y upgrade \
       && apt-get install -y sudo curl vim\
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
@@ -17,8 +18,16 @@ RUN mv docker/* /usr/bin/
 USER jenkins
 
 # installing specific list of plugins. see: https://github.com/jenkinsci/docker#preinstalling-plugins
-COPY plugins.txt /var/jenkins_home/plugins.txt
-RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
+RUN /usr/local/bin/install-plugins.sh git \
+	github \
+	config-file-provider \
+	docker \
+	docker-commons \
+	job-dsl \
+	build-pipeline \
+	resource-disposer \
+	cloudbees-folder \
+	ldap
 
 # Adding default Jenkins Jobs
 COPY jobs/spring-example-mvn.xml /usr/share/jenkins/ref/jobs/spring-example-mvn/config.xml

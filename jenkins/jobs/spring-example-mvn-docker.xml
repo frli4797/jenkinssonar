@@ -23,7 +23,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/master</name>
+        <name>*/docker</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -48,7 +48,7 @@
     <groupId>javabeat.net</groupId>
     <artifactId>example-spring-boot-rest</artifactId>
   </rootModule>
-  <goals>clean install sonar:sonar</goals>
+  <goals>package docker:build -DpushImage -Dmaven.test.skip=true</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <ignoreUpstremChanges>false</ignoreUpstremChanges>
@@ -67,28 +67,7 @@
     <settingsConfigId>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</settingsConfigId>
   </globalSettings>
   <reporters/>
-  <publishers>
-    <hudson.plugins.jacoco.JacocoPublisher plugin="jacoco@2.1.0">
-      <execPattern>**/target/**.exec</execPattern>
-      <classPattern>**/classes</classPattern>
-      <sourcePattern>**/src/main/java</sourcePattern>
-      <inclusionPattern></inclusionPattern>
-      <exclusionPattern></exclusionPattern>
-      <minimumInstructionCoverage>0</minimumInstructionCoverage>
-      <minimumBranchCoverage>0</minimumBranchCoverage>
-      <minimumComplexityCoverage>0</minimumComplexityCoverage>
-      <minimumLineCoverage>0</minimumLineCoverage>
-      <minimumMethodCoverage>0</minimumMethodCoverage>
-      <minimumClassCoverage>0</minimumClassCoverage>
-      <maximumInstructionCoverage>0</maximumInstructionCoverage>
-      <maximumBranchCoverage>0</maximumBranchCoverage>
-      <maximumComplexityCoverage>0</maximumComplexityCoverage>
-      <maximumLineCoverage>0</maximumLineCoverage>
-      <maximumMethodCoverage>0</maximumMethodCoverage>
-      <maximumClassCoverage>0</maximumClassCoverage>
-      <changeBuildStatus>false</changeBuildStatus>
-    </hudson.plugins.jacoco.JacocoPublisher>
-  </publishers>
+  <publishers/>
   <buildWrappers>
     <org.jenkinsci.plugins.configfiles.buildwrapper.ConfigFileBuildWrapper plugin="config-file-provider@2.15.6">
       <managedFiles>

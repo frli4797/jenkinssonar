@@ -3,7 +3,8 @@ FROM jenkins:2.32.2
 USER root
 RUN apt-get update \
 #      && apt-get -y upgrade \
-      && apt-get install -y sudo curl vim\
+      && apt-get install -y sudo curl vim \
+	&& apt-get install -y docker \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
@@ -14,6 +15,7 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 # see: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Custom+Build+Environment+Plugin#CloudBeesDockerCustomBuildEnvironmentPlugin-DockerinDocker
 RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvzf docker-latest.tgz
 RUN mv docker/* /usr/bin/
+RUN usermod -a -G staff jenkins
 
 USER jenkins
 

@@ -16,6 +16,7 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvzf docker-latest.tgz
 RUN mv docker/* /usr/bin/
 RUN usermod -a -G staff jenkins
+RUN chmod a+rwx /var/run/docker.sock
 
 USER jenkins
 
@@ -29,10 +30,13 @@ RUN /usr/local/bin/install-plugins.sh git \
 	build-pipeline \
 	resource-disposer \
 	cloudbees-folder \
+	docker-build-publish \
 	ldap
 
 # Adding default Jenkins Jobs
 COPY jobs/spring-example-mvn.xml /usr/share/jenkins/ref/jobs/spring-example-mvn/config.xml
+COPY jobs/spring-example-mvn-docker.xml /usr/share/jenkins/ref/jobs/spring-example-mvn-docker/config.xml
+COPY jobs/spring-example-mvn-dockersa.xml /usr/share/jenkins/ref/jobs/spring-example-mvn-dockersa/config.xml
 
 ############################################
 # Configure Jenkins
@@ -44,6 +48,9 @@ COPY config/config.xml /usr/share/jenkins/ref/config.xml
 COPY config/hudson.tasks.Maven.xml /usr/share/jenkins/ref/hudson.tasks.Maven.xml
 COPY config/hudson.plugins.groovy.Groovy.xml /usr/share/jenkins/ref/hudson.plugins.groovy.Groovy.xml
 COPY config/maven-global-settings-files.xml /usr/share/jenkins/ref/maven-global-settings-files.xml
+COPY config/github-plugin-configuration.xml /usr/share/jenkins/ref/github-plugin-configuration.xml
+COPY config/org.jenkinsci.plugins.configfiles.GlobalConfigFiles.xml /usr/share/jenkins/ref/org.jenkinsci.plugins.configfiles.GlobalConfigFiles.xml
+COPY config/hudson.plugins.git.GitSCM.xml /usr/share/jenkins/ref/hudson.plugins.git.GitSCM.xml
 
 # SSH Keys & Credentials
 COPY config/credentials.xml /usr/share/jenkins/ref/credentials.xml

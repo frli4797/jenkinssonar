@@ -58,7 +58,7 @@
     <groupId>javabeat.net</groupId>
     <artifactId>example-spring-boot-rest</artifactId>
   </rootModule>
-  <goals>clean install -DskipTests=true</goals>
+  <goals>clean install sonar:sonar</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <ignoreUpstremChanges>false</ignoreUpstremChanges>

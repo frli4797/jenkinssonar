@@ -16,7 +16,7 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvzf docker-latest.tgz
 RUN mv docker/* /usr/bin/
 RUN usermod -a -G staff jenkins
-RUN chmod a+rwx /var/run/docker.sock
+#RUN chmod a+rwx /var/run/docker.sock
 
 USER jenkins
 
